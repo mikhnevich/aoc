@@ -8,6 +8,7 @@ The third floor contains a promethium generator, a promethium-compatible microch
 The fourth floor contains nothing relevant.
 
 based on https://github.com/exoji2e/aoc2016/blob/master/11/A.java
+
 */
 object Day11 {
 
@@ -15,8 +16,24 @@ object Day11 {
     def getStateStr: String = elevator + items.mkString("")
   }
 
-  def sort(items: Array[Int]): Array[Int] = {
+  def sort(items: Array[Int]) = {
+    val pairs = for (i <- 0 to items.length/2) yield {(items(2*i), items(2*i+1)) }
+    pairs.sortWith((x, y) => (if (x._1 != y._1) x._1 - y._1 else x._2 - y._2) > 0)
+    for (i <- pairs.indices) {
+      items(2*i) = pairs(i)._1
+      items(2*i+1) = pairs(i)._2
+    }
+  }
 
+  def isValid(items: Array[Int]) = {
+    var valid = false
+    for (i <- items.indices by 2) {
+      if (items(i) != items(i+1))
+        for (j <- 1 until items.length by 2) {
+          if (items(j) == items(j+1)) valid |= true
+        }
+    }
+    valid
   }
 
   def solve(initial: Array[Int]) = {
@@ -29,7 +46,7 @@ object Day11 {
       val current = bfs.dequeue()
       if (current.elevator >= 0 && current.elevator <= 3) {
         sort(current.items)
-        if (isValid(current)) {
+        if (isValid(current.items)) {
           val currentStateString = current.getStateStr
           if (!visited.contains(currentStateString)) {
             visited += (currentStateString -> current.step)
