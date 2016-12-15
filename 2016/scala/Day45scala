@@ -1,0 +1,61 @@
+import scala.io.Source
+
+object Day4 {
+
+  case class Room(name: String, id: Int, checksum: String)
+
+  def main(args: Array[String]): Unit = {
+
+    val lines = Source.fromFile("d:\\work\\aoc2016\\problems\\day4_input.txt").getLines().toList
+    val pattern = "([a-z|\\-]+)(\\d+)\\[(\\w+)\\]".r
+    val rooms = lines.map { case pattern(name, room, checksum) => Room(name, room.toInt, checksum) }
+    val realRooms = rooms.filter(isValid)
+    val sum = realRooms.map(_.id).sum
+    println(sum)
+    val decrypted = realRooms.map{x =>
+      val decrypted = x.name.map{c => if (c == '-') ' ' else rotate(c, x.id)}
+      x.copy(name = decrypted)
+    }
+
+    val decryptedRooms = realRooms.map(decrypt)
+    val targetRoom = decryptedRooms.find(_.name.startsWith("north"))
+    println(targetRoom)
+    println(decrypted.find(_.name.startsWith("north")))
+  }
+
+  def rotate(c: Char, by: Int): Char = {
+    val a = by % 26
+    if ((c + a).toChar > 'z') (c + a - 'z' + 'a' - 1).toChar else (c + a).toChar
+  }
+
+  def isValid(room: Room): Boolean = {
+    true
+    val chars = room.name.replace("-", "")
+    val byFreq = chars.groupBy(identity).mapValues {
+      _.length
+    }.toList.
+      sortWith { case ((ch1, size1), (ch2, size2)) =>
+        if (size1 > size2) true
+        else if (size1 < size2) false
+        else ch1 < ch2
+      }
+    val frequent = byFreq.take(room.checksum.length).map(_._1).toSet
+    if (room.checksum.toSet.sameElements(frequent)) {
+      true
+    } else {
+      false
+    }
+  }
+
+  def decrypt(room: Room) = {
+    val shift = room.id % 26
+
+    def decryptChar(c: Char) = {
+      val afterShift = (c + shift).toChar
+      if (afterShift > 'z') (afterShift - 26).toChar else afterShift
+    }
+
+    room.copy(name = room.name.toList.map(decryptChar).mkString)
+  }
+
+}
