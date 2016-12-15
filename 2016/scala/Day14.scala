@@ -1,19 +1,9 @@
-import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
-import javax.xml.bind.DatatypeConverter.printHexBinary
+import Utils._
 
 import scala.annotation.tailrec
 
 object Day14 {
 
-  import java.security.MessageDigest
-
-  val digest: MessageDigest = MessageDigest.getInstance("MD5")
-
-
-  def md5(s: String): String = {
-    printHexBinary(digest.digest(s.getBytes)).toLowerCase
-  }
 
   def stretchedHash(hash: String): String = Iterator.iterate(hash)(md5).drop(2017).next
 
@@ -32,8 +22,8 @@ object Day14 {
   }
 
   def main(args: Array[String]): Unit = {
-    println(findKey(Stream.from(0).map("jlmsuwbz" + _).map(md5), 0, 64))
-    println(findKey(Stream.from(0).map("jlmsuwbz" + _).map(stretchedHash), 0, 64))
+    measure(println(findKey(Stream.from(0).map("jlmsuwbz" + _).map(md5), 0, 64)))
+    measure(println(findKey(Stream.from(0).map("jlmsuwbz" + _).map(stretchedHash), 0, 64)))
   }
 
 }
