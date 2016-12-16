@@ -77,7 +77,6 @@ object Day16 {
   def checksum(c: Array[Char]): Array[Char] = {
     var t = c
     while (t.length % 2 == 0) {
-      println(t.length)
       t = t.grouped(2).map(x => if (x(0) == x(1)) '1' else '0').toArray
     }
     t
@@ -97,15 +96,19 @@ object Day16 {
     c.mkString
   }
 
-  def main(args: Array[String]): Unit = {
-    var s = "11110010111001001".toCharArray
-//    val size = 272
-    val size = 35651584
+  def solve(input: String, size: Int) = {
+    var s = input.toCharArray
     while (s.length < size) {
       s = mutate(s)
     }
     var t = s.slice(0, size)
-    println(checksum(t).mkString)
+    checksum(t).mkString
+  }
+
+  def main(args: Array[String]): Unit = {
+    val s = "11110010111001001"
+    println(solve(s, 272))
+    println(solve(s, 35651584))
   }
 
 }
