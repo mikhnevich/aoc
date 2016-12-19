@@ -1,40 +1,50 @@
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 object Day19 {
-
-  val input = "^..^^.^^^..^^.^...^^^^^....^.^..^^^.^.^.^^...^.^.^.^.^^.....^.^^.^.^.^.^.^.^^..^^^^^...^.....^....^."
-
-  def nextRow(row: Array[Boolean]) = {
-    val next = Array.ofDim[Boolean](row.length)
-    for (i <- row.indices) {
-      next(i) = isTrap(row, i)
-    }
-    next
-  }
-
-  def isTrap(row: Array[Boolean], col: Int): Boolean = {
-    val left = if (col == 0) false else row(col - 1)
-    val center = row(col)
-    val right = if (col == row.length - 1) false else row(col + 1)
-    (left && center && !right) || (!left && center && right) || (left && !center && !right) || (!left && !center && right)
-  }
+// 5 - 2
+  // 6 - 1
+  // 7 - 3
+  // 8 - 5
+  // 9 - 3
 
 
-  def solve(input: String, rowCount: Int) = {
-    var row = input.toCharArray.map(_ == '^')
-    var cnt = row.count(!_)
-    for (i <- 0 until rowCount - 1) {
-      row = nextRow(row)
-      cnt += row.count(!_)
-    }
-    cnt
-  }
+//  val N = 9
+  val N = 3018458
+  val elfs = List.range(1, N + 1).to[ListBuffer]
+
 
   def main(args: Array[String]): Unit = {
-    Utils.time(println(solve(input, 40)))
-    Utils.time(println(solve(input, 400000)))
-    // 2016
-    // 19998750
+    var i = 0
+    var lastOne = false
+    while (elfs.size > 1) {
+      val a = find2(elfs, i)
+//      println(s"removing ${elfs(a)}")
+      elfs.remove(a)
+      i = (i+1) % elfs.length
+    }
+    println(elfs)
+  }
+ 
+  def find2(a: ListBuffer[Int], starting: Int): Int = {
+    var i = starting
+    i = (i + (a.length-1) / 2) % (a.length)
+    i
+  }
+
+  def find(a: ListBuffer[Boolean], starting: Int): Int = {
+    var i = starting + 1
+    var found = false
+    var foundIndex = starting
+    while (i < starting + N && !found) {
+      val k = i % N
+      if (a(k)) {
+        found = true
+        foundIndex = k
+      }
+      i += 1
+    }
+    foundIndex
   }
 
 
