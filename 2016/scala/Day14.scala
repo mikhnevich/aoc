@@ -22,8 +22,8 @@ object Day14 {
   }
 
   def main(args: Array[String]): Unit = {
-    measure(println(findKey(Stream.from(0).map("jlmsuwbz" + _).map(md5), 0, 64)))
-    measure(println(findKey(Stream.from(0).map("jlmsuwbz" + _).map(stretchedHash), 0, 64)))
+    time(println(findKey(Stream.from(0).map("jlmsuwbz" + _).map(md5), 0, 64)))
+    time(println(findKey(Stream.from(0).map("jlmsuwbz" + _).map(stretchedHash), 0, 64)))
   }
 
 }

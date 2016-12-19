@@ -14,10 +14,11 @@ object Utils {
     printHexBinary(digest.digest(s.getBytes)).toLowerCase
   }
 
-  def measure(f: => Unit): Unit = {
+  def time[A](f: => A): A = {
     val start = System.currentTimeMillis()
-    f
+    val x = f
     val end = System.currentTimeMillis()
     println(s"Execution time: ${(end - start)/1000} seconds")
+    x
   }
 }

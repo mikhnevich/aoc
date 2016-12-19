@@ -31,10 +31,10 @@ object Day15 {
   }
 
   def main(args: Array[String]): Unit = {
-    Utils.measure(println(solve(Array(Disk(17, 5), Disk(19, 8), Disk(7, 1), Disk(13, 7), Disk(5, 1), Disk(3, 0)))))
-    Utils.measure(println(solve(Array(Disk(17, 5), Disk(19, 8), Disk(7, 1), Disk(13, 7), Disk(5, 1), Disk(3, 0), Disk(11, 0)))))
+    Utils.time(println(solve(Array(Disk(17, 5), Disk(19, 8), Disk(7, 1), Disk(13, 7), Disk(5, 1), Disk(3, 0)))))
+    Utils.time(println(solve(Array(Disk(17, 5), Disk(19, 8), Disk(7, 1), Disk(13, 7), Disk(5, 1), Disk(3, 0), Disk(11, 0)))))
     // Upping the Ante
-    Utils.measure(println(solve(Array(
+    Utils.time(println(solve(Array(
       Disk(43, 2),
       Disk(53, 7),
       Disk(61, 10),
@@ -45,7 +45,7 @@ object Day15 {
     // stuck here
     // https://www.reddit.com/r/adventofcode/comments/5ifvyc/2016_day_15_part_3_our_discs_got_larger/
     // https://en.wikipedia.org/wiki/Chinese_remainder_theorem#Search_by_sieving
-    Utils.measure(println(solve(Array(
+    Utils.time(println(solve(Array(
       Disk(101, 2),
       Disk(163, 7),
       Disk(263, 10),
