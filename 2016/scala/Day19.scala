@@ -25,7 +25,7 @@ object Day19 {
     }
     println(elfs)
   }
- 
+
   def find2(a: ListBuffer[Int], starting: Int): Int = {
     var i = starting
     i = (i + (a.length-1) / 2) % (a.length)
